@@ -1,0 +1,36 @@
+#Save the following to common.in:
+#lattice face-centered Cubic 7.41
+
+latt-scale 1.89 1.89 1.89
+
+include Alpha.ionpos
+include Alpha.lattice
+
+coords-type lattice
+
+elec-n-bands 100
+
+converge-empty-states yes
+
+ion-species GBRV/$ID_pbesol.uspp
+elec-ex-corr gga-PBEsol
+elec-cutoff ${cutoff}
+
+
+#ion Pt  0 0 0  0      #Single atom per unit cell
+
+ionic-minimize nIterations 100
+
+#spintype z-spin
+
+#elec-initial-magnetization 0 no
+
+core-overlap-check none
+#elec-initial-charge -1
+dump Ionic State
+dump-name cluster.$VAR
+dump End BandEigs DOS EigStats BandEigs
+kpoint-folding 6 6 6      #Metals need more k-points
+#elec-smearing Fermi 0.00001  #Set fillings using Fermi function at T = 0.01 Hartrees
+
+electronic-SCF
